@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:utext="${title}"></title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+    <h1 th:utext="${title}"></h1>
+    <form th:action="@{/student/{id}/courses/(id=${student.idstudent})}" method="get" enctype="multipart/form-data">
+       <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Student Info</div>
+                <div class="panel-body">
+                    Name  : <b th:utext="${student.firstname} + ' ' +${student.lastname}"/>
+                    <br/>
+                    Email : <b th:utext="${student.email}"/>
+                    <br/>
+                    Courses:
+                    <span th:each="course : ${student.courses}">
+                        <br/>&nbsp;&nbsp;<span th:text="${course.name}"/>
+                    </span>
+                </div>
+            </div>
+           <div class="col-md-6">
+                <select class="form-control" name="courseId">
+                    <option th:each="course : ${courses}"
+                        th:value="${course.idcourse}"
+                            th:text="${course.name}">Course</option>
+                </select>
+           </div>
+           <input type="submit" value="Add Course" class="btn btn-primary"/>
+       </div>
+    </form>
+</body>
+</html>
