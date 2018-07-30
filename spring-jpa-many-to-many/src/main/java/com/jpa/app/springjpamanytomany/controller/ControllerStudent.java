@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class ControllerStudent {
@@ -39,6 +38,23 @@ public class ControllerStudent {
         return "addStudent";
     }
 
+    //save student
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String newStudent(Student student){
+        studentRepository.save(student);
+        return "redirect:/students";
+    }
+
+    //delete student
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public String deleteStudent(@PathVariable("id") Long id){
+        Student student = studentRepository.findByIdstudent(id);
+        if (student!=null){
+            studentRepository.delete(student);
+        }
+        return "redirect:/students";
+    }
+
     //add course student
     @RequestMapping(value = "/addStudentCourse/{id}", method = RequestMethod.GET)
     public String addStudentCourse(@PathVariable("id") Long studentId, Model model){
@@ -48,7 +64,7 @@ public class ControllerStudent {
         return "addStudentCourse";
     }
 
-    //execute add course
+    //execute add course into student
     @RequestMapping(value = "/student/{id}/courses", method = RequestMethod.GET)
     public String addCourseStudent(@PathVariable("id") Long id,
                                    @RequestParam Long courseId,
@@ -67,4 +83,5 @@ public class ControllerStudent {
         }
         return "redirect:/students";
     }
+
 }
